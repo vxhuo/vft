@@ -1,4 +1,4 @@
 
 # vft
 
-vector library with couple functions
+my math lib
