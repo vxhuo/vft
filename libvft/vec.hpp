@@ -17,7 +17,7 @@ namespace vft
 
 
     template<Arithmetic T>
-    using FT = std::conditional_t<std::is_same_v<T, double>, double, float>; // float type
+    using FT = std::conditional_t<std::is_floating_point_v<T>, T, float>;
 
 
     template<Arithmetic T, unsigned char D = 2>
@@ -94,7 +94,7 @@ namespace vft
 
 
         template<unsigned char D>
-        [[nodiscard]] constexpr inline T dot(const vec<T,D> v) const noexcept
+        [[nodiscard]] constexpr T dot(const vec<T,D> v) const noexcept
         { return (x * v.x) + (y * v.y); }
 
         [[nodiscard]] constexpr inline T len_sq() const noexcept 
@@ -113,7 +113,7 @@ namespace vft
         { return ((v.x - x) * (v.x - x)) + ((v.y - y) * (v.y - y)); } 
 
         template<unsigned char D>
-        constexpr inline void lerp(const vec<T,D> to, const float t) noexcept 
+        constexpr void lerp(const vec<T,D> to, const float t) noexcept 
         {
             x = x + (t * (to.x - x));
             y = y + (t * (to.y - y));
@@ -227,7 +227,7 @@ namespace vft
 
 
         template<unsigned char D>
-        [[nodiscard]] constexpr inline T dot(const vec<T,D> v) const noexcept
+        [[nodiscard]] constexpr T dot(const vec<T,D> v) const noexcept
         { return (x * v.x) + (y * v.y) + (z * v.z); }
         
         constexpr inline void cross(const vec<T,3> v) noexcept 
@@ -254,7 +254,7 @@ namespace vft
         { return ((v.x - x) * (v.x - x)) + ((v.y - y) * (v.y - y)) + ((v.z - z) * (v.z - z)); } 
 
         template<unsigned char D>
-        constexpr inline void lerp(const vec<T,D> to, const float t) noexcept 
+        constexpr void lerp(const vec<T,D> to, const float t) noexcept 
         {
             x = x + (t * (to.x - x));
             y = y + (t * (to.y - y));
@@ -398,7 +398,7 @@ namespace vft
 
 
         template<unsigned char D>
-        [[nodiscard]] constexpr inline T dot(const vec<T,D> v) const noexcept
+        [[nodiscard]] constexpr T dot(const vec<T,D> v) const noexcept
         { return (x * v.x) + (y * v.y) + (z * v.z) + (w * v.w); }
         
         [[nodiscard]] constexpr inline T len_sq() const noexcept 
@@ -417,7 +417,7 @@ namespace vft
         { return ((v.x - x) * (v.x - x)) + ((v.y - y) * (v.y - y)) + ((v.z - z) * (v.z - z)) + ((v.w - w) * (v.w - w)); } 
 
         template<unsigned char D>
-        constexpr inline void lerp(const vec<T,D> to, const float t) noexcept 
+        constexpr void lerp(const vec<T,D> to, const float t) noexcept 
         {
             x = x + (t * (to.x - x));
             y = y + (t * (to.y - y));
@@ -522,7 +522,7 @@ namespace vft
 
     template<Arithmetic T, unsigned char D>
     requires (D == 2 || D == 3 || D == 4)
-    [[nodiscard]] constexpr inline T dot(vec<T,D> a, vec<T,D> b) noexcept 
+    [[nodiscard]] constexpr T dot(vec<T,D> a, vec<T,D> b) noexcept 
     {
         if constexpr (D == 2)
         {
@@ -541,13 +541,13 @@ namespace vft
 
     template<Arithmetic T, unsigned char D>
     requires (D == 3)
-    [[nodiscard]] constexpr inline vec<T,D> cross(const vec<T,D> a, const vec<T,D> b) noexcept 
+    [[nodiscard]] constexpr vec<T,D> cross(const vec<T,D> a, const vec<T,D> b) noexcept 
     { return {(a.y * b.z) - (a.z * b.y), (a.z * b.x) - (a.x * b.z), (a.x * b.y) - (a.y * b.x)}; }
 
 
     template<Arithmetic T, unsigned char D>
     requires (D == 2 || D == 3 || D == 4)
-    [[nodiscard]] constexpr inline T len_sq(const vec<T,D> v) noexcept 
+    [[nodiscard]] constexpr T len_sq(const vec<T,D> v) noexcept 
     {
         if constexpr (D == 2)
         {
@@ -565,7 +565,7 @@ namespace vft
 
 
     template<Arithmetic T, unsigned char D>
-    [[nodiscard]] constexpr inline FT<T> len(const vec<T,D> v) noexcept requires (D == 2 || D == 3 || D == 4) 
+    [[nodiscard]] constexpr FT<T> len(const vec<T,D> v) noexcept requires (D == 2 || D == 3 || D == 4) 
     { return std::sqrt(static_cast<FT<T>>(len_sq(v))); }
 
 
@@ -583,13 +583,13 @@ namespace vft
 
     template<Arithmetic T, unsigned char D>
     requires (D == 2 || D == 3 || D == 4)
-    [[nodiscard]] constexpr inline vec<T,D> normalize(const vec<T,D> v) noexcept requires std::is_floating_point_v<T>
+    [[nodiscard]] constexpr vec<T,D> normalize(const vec<T,D> v) noexcept requires std::is_floating_point_v<T>
     { return v / len(v); }
 
 
     template<Arithmetic T, unsigned char D>
     requires (D == 2 || D == 3 || D == 4)
-    [[nodiscard]] constexpr inline vec<T,D> lerp(const vec<T,D> a, const vec<T,D> b, const float t) noexcept 
+    [[nodiscard]] constexpr vec<T,D> lerp(const vec<T,D> a, const vec<T,D> b, const float t) noexcept 
     { 
         if constexpr (D == 2)
         {
@@ -657,7 +657,7 @@ namespace vft
 
     template<Arithmetic T, unsigned char D>
     requires (D == 2 || D == 3 || D == 4)
-    [[nodiscard]] constexpr inline vec<T,D> clamp(const vec<T,D> v, const T min, const T max) noexcept 
+    [[nodiscard]] constexpr vec<T,D> clamp(const vec<T,D> v, const T min, const T max) noexcept 
     { 
         vec<T,D> c{};
         if constexpr (D == 2)
@@ -708,7 +708,7 @@ namespace vft
 
     template<Arithmetic T, unsigned char D>
     requires (D == 2 || D == 3 || D == 4)
-    [[nodiscard]] constexpr inline vec<T,D> min(const vec<T,D> a, const vec<T,D> b) noexcept 
+    [[nodiscard]] constexpr vec<T,D> min(const vec<T,D> a, const vec<T,D> b) noexcept 
     {
         if constexpr (D == 2)
         {
@@ -742,7 +742,7 @@ namespace vft
 
     template<Arithmetic T, unsigned char D>
     requires (D == 2 || D == 3 || D == 4)
-    [[nodiscard]] constexpr inline vec<T,D> max(const vec<T,D> a, const vec<T,D> b) noexcept 
+    [[nodiscard]] constexpr vec<T,D> max(const vec<T,D> a, const vec<T,D> b) noexcept 
     {
         if constexpr (D == 2)
         {
@@ -830,6 +830,7 @@ namespace std
     template<typename T, unsigned char D>
     struct formatter<vft::vec<T,D>> : std::formatter<T>
     {
+        constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); }
         auto format(const vft::vec<T,D>& v, format_context& ctx) const 
         {
             if constexpr (D == 2) 
