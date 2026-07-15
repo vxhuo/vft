@@ -151,7 +151,11 @@ namespace vft
     template<Arithmetic T>
     struct vec<T,3> final
     {
-        T x{}, y{}, z{};
+        union
+        {
+            T x{}, y{}, z{};
+            T r, g, b;
+        };
 
 
 
@@ -296,7 +300,11 @@ namespace vft
     template<Arithmetic T>
     struct vec<T,4> final
     {
-        T x{}, y{}, z{}, w{};
+        union
+        {
+            T x{}, y{}, z{}, w{};
+            T r, g, b, a;
+        };
 
 
 

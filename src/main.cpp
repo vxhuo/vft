@@ -7,27 +7,27 @@
 
 int main()
 {
-    const vft::vec<float, 2> s1
+    constexpr vft::vec<float, 2> s1
     {
         .x = 100,
         .y = 100,
     };
   
-    const vft::vec<float, 2> e1
+    constexpr vft::vec<float, 2> e1
     {
         .x = 300,
         .y = 500,
     };
     
     
-    const vft::vec<float, 2> s2
+    constexpr vft::vec<float, 2> s2
     {
         .x = 490,
         .y = 200,
     };
     
      
-    const vft::vec<float, 2> e2
+    constexpr vft::vec<float, 2> e2
     {
         .x = 250,
         .y = 310,
