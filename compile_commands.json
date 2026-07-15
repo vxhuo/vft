@@ -1,6 +1,0 @@
-[
-{
-  "directory": "/home/x/coding/repo/vft",
-  "arguments": ["/usr/bin/g++", "-c", "-m64", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-Isrc", "-I", "/home/x/.xmake/packages/r/raylib/5.5/2d2a3098bbb54016b83b868718733041/include", "-Wall", "-Wextra", "-Werror", "-Wpedantic", "-Wshadow", "-Wconversion", "-O3", "-march=native", "-fno-exceptions", "-fno-rtti", "-mavx", "-std=c++26", "-DNDEBUG", "-o", "build/.objs/vft/linux/x86_64/release/src/main.cpp.o", "src/main.cpp"],
-  "file": "src/main.cpp"
-}]
